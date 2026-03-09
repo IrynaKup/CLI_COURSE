@@ -1,8 +1,9 @@
+#!/usr/bin/env node
 require('dotenv').config();
 
 const { program } = require('commander');
 const TelegramBot = require('node-telegram-bot-api');
-const fs = require('fs');
+const { existsSync } = require('fs');
 
 const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN;
 const CHAT_ID = process.env.CHAT_ID;
@@ -33,7 +34,6 @@ program
     }
   });
 
-// Photo command
 program
   .command('photo <path>')
   .alias('p')
@@ -42,7 +42,7 @@ program
     try {
       const cleanPath = photoPath.replace(/^['"]|['"]$/g, '');
       
-      if (!fs.existsSync(cleanPath)) {
+      if (!existsSync(cleanPath)) {
         console.error('File not found');
         process.exit(1);
       }
