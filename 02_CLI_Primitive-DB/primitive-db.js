@@ -14,7 +14,7 @@ async function addUser() {
       break;
     }
 
-    const gender = await select({ message: 'Select gender for ${name}:',
+    const gender = await select({ message: `Select gender for ${name}:`,
       choices: [
         { name: 'Male', value: 'male' },
         { name: 'Female', value: 'female' },
@@ -22,7 +22,7 @@ async function addUser() {
     });
 
     const age = await input({ 
-        message: 'Enter age for ${name}:',
+        message: `Enter age for ${name}:`,
         validate: (value) => {
           const parsed = parseInt(value, 10);
           if (isNaN(parsed) || parsed <= 0) {
@@ -38,7 +38,7 @@ async function addUser() {
       age: parseInt(age, 10),
     });
 
-    console.log('User ${name} added successfully!');
+    console.log(`User ${name} added successfully!`);
     
   }
 }
@@ -60,11 +60,11 @@ async function searchUser() {
 
   if (foundUser) {
     console.log('\nUser found');
-    console.log('Name:   ${foundUser.name}');
-    console.log('Gender: ${foundUser.gender}');
-    console.log('Age:    ${foundUser.age}');
+    console.log(`Name:   ${foundUser.name}`);
+    console.log(`Gender: ${foundUser.gender}`);
+    console.log(`Age:    ${foundUser.age}`);
   } else {
-    console.log('User "${trimmedSearchName}" not found in the database.');
+    console.log(`User "${trimmedSearchName}" not found in the database.`);
   }
 }
 
@@ -78,7 +78,7 @@ async function runApp() {
     return;
   }
 
-  console.log('\nTotal users in database: ${users.length}');
+  console.log(`\nTotal users in database: ${users.length}`);
   
   const shouldSearch = await confirm({ 
       message: 'Would you like to search for a user by name?',
@@ -88,7 +88,7 @@ async function runApp() {
   if (shouldSearch) {
     await searchUser();
   } else {
-    console.log('\nExiting program. Goodbye!');
+    console.log('\nThis is the end...');
   }
 }
 runApp().catch((error) => {
