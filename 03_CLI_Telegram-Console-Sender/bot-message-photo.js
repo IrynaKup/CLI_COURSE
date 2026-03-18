@@ -4,6 +4,7 @@ require('dotenv').config();
 const { program } = require('commander');
 const TelegramBot = require('node-telegram-bot-api');
 const { existsSync } = require('fs');
+const path = require('path');
 
 const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN;
 const CHAT_ID = process.env.CHAT_ID;
@@ -16,9 +17,9 @@ if (!TELEGRAM_TOKEN || !CHAT_ID) {
 const bot = new TelegramBot(TELEGRAM_TOKEN);
 
 program
-  .version('1.0.0')
-  .description('Telegram Console Sender - tool to send messages and photos to Telegram');
-
+  .name('Console Sender')
+  .description('Telegram Console Sender - tool to send messages and photos to Telegram')
+  .version('1.0.0');
 program
   .command('message <text>')
   .alias('m')
