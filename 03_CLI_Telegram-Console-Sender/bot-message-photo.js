@@ -6,15 +6,15 @@ const TelegramBot = require('node-telegram-bot-api');
 const { existsSync } = require('fs');
 const path = require('path');
 
-const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN;
+const BOT_TOKEN = process.env.BOT_TOKEN;
 const CHAT_ID = process.env.CHAT_ID;
 
-if (!TELEGRAM_TOKEN || !CHAT_ID) {
+if (!BOT_TOKEN || !CHAT_ID) {
   console.error('не найден в .env файле');
   process.exit(1);
 }
 
-const bot = new TelegramBot(TELEGRAM_TOKEN);
+const bot = new TelegramBot(BOT_TOKEN);
 
 program
   .name('Console Sender')
