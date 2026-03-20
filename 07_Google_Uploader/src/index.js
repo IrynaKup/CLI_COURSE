@@ -15,7 +15,7 @@ const __dirname = dirname(__filename);
 
 dotenv.config();
 
-console.log(chalk.cyan.bold('\n📤 Google Uploader v1.0\n'));
+console.log(chalk.cyan.bold('\nGoogle Uploader v1.0\n'));
 console.log(chalk.yellow('Перетащите изображение в это окно и нажмите Enter\n'));
 
 async function promptForImagePath() {
@@ -45,3 +45,65 @@ async function promptForImagePath() {
   
   return imagePath.trim().replace(/^['"]|['"]$/g, '');
 }
+
+async function promptForRename(originalPath) {
+  const originalName = path.basename(originalPath);
+  const { action } = await inquirer.prompt([
+    {
+      type: 'list',
+      name: 'action',
+      message: `Имя файла: ${chalk.green(originalName)}`,
+      choices: [
+        { name: 'Переименовать', value: 'rename' },
+        { name: 'Оставить как есть', value: 'keep' }
+      ]
+    }
+  ]);
+
+  if (action === 'rename') {
+    const { newName } = await inquirer.prompt([
+      {
+        type: 'input',
+        name: 'newName',
+        message: 'Новое имя файла (без расширения):',
+        validate: (input) => {
+          if (!input.trim()) return 'Имя не может быть пустым';
+          if (/[<>:"/\\|?*]/.test(input)) return 'Имя содержит недопустимые символы';
+          return true;
+        }
+      }
+    ]);
+    
+    const ext = path.extname(originalPath);
+    return newName.trim() + ext;
+  }
+  
+  return originalName;
+}
+
+async function promptForShortLink() {
+  const { shorten } = await inquirer.prompt([
+    {
+      type: 'confirm',
+      name: 'shorten',
+      message: 'Создать короткую ссылку?',
+      default: true
+    }
+  ]);
+  
+  return shorten;
+}
+
+async function main() {
+  try {
+    
+
+
+  } catch (error) {
+
+
+    process.exit(1);
+  }
+}
+
+main();
