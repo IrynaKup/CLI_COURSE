@@ -96,12 +96,59 @@ async function promptForShortLink() {
 
 async function main() {
   try {
-    
+    const imagePath = await promptForImagePath();
+    console.log(chalk.gray(`\nВыбрано: ${imagePath}\n`));
 
+    const finalFileName = await promptForRename(imagePath);
+    if (finalFileName !== path.basename(imagePath)) {
+      console.log(chalk.gray(`\nНовое имя: ${finalFileName}\n`));
+    }
+
+    const createShortLink = await promptForShortLink();
+
+    console.log(chalk.cyan('\nАутентификация в Google Drive'));
+    
+    const auth = await authenticate();
+    console.log(chalk.green('Аутентификация успешна\n'));
+
+    console.log(chalk.cyan('Загрузка файла'));
+    
+    let fileToUpload = imagePath;
+    if (finalFileName !== path.basename(imagePath)) {
+      const tempPath = path.join(__dirname, 'temp', finalFileName);
+      await fs.ensureDir(path.join(__dirname, 'temp'));
+      await fs.copy(imagePath, tempPath);
+      fileToUpload = tempPath;
+    }
+
+    const fileInfo = await uploadToGoogleDrive(auth, fileToUpload, finalFileName);
+    
+    if (fileToUpload !== imagePath) {
+      await fs.remove(fileToUpload);
+    }
+
+    console.log(chalk.green('Файл успешно загружен!\n'));
+    console.log(chalk.cyan('Детали:'));
+    console.log(`   ID: ${fileInfo.id}`);
+    console.log(`   Название: ${fileInfo.name}`);
+    console.log(`   Размер: ${(fileInfo.size / 1024).toFixed(2)} KB`);
+    console.log(`   Ссылка: ${fileInfo.webViewLink}`);
+
+    if (createShortLink) {
+      console.log(chalk.cyan('\nСоздание короткой ссылки...'));
+      try {
+        const shortUrl = await createTinyUrl(fileInfo.webViewLink);
+        console.log(chalk.green('Короткая ссылка создана!'));
+        console.log(`   ${shortUrl}\n`);
+      } catch (error) {
+        console.log(chalk.yellow('Не удалось создать короткую ссылку'));
+      }
+    }
+
+    console.log(chalk.green.bold('\nФайл загружен в Google Drive\n'));
 
   } catch (error) {
-
-
+    console.error(chalk.red('\nОшибка:'), error.message);
     process.exit(1);
   }
 }
