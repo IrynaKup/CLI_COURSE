@@ -29,7 +29,6 @@ async function processFiles(filePaths: string[]): Promise<ProcessResult> {
   const uniqueTotal = new Set<string>();
   const fileSets: Set<string>[] = [];
 
-  // Обрабатываем файлы последовательно 
   for (const filePath of filePaths) {
     console.log(`Обработка: ${path.basename(filePath)}`);
     const phrases = await readPhrasesToSet(filePath);
@@ -41,3 +40,20 @@ async function processFiles(filePaths: string[]): Promise<ProcessResult> {
 
   return { uniqueTotal, fileSets };
 }
+// Находит фразы, которые есть во всех файлах
+function countInAllFiles(fileSets: Set<string>[]): number {
+  if (fileSets.length === 0) return 0;
+  
+  const common = new Set(fileSets[0]);
+  
+  for (let i = 1; i < fileSets.length; i++) {
+    for (const phrase of common) {
+      if (!fileSets[i].has(phrase)) {
+        common.delete(phrase);
+      }
+    }
+  }
+  
+  return common.size;
+}
+
