@@ -25,22 +25,22 @@ async function readPhrasesToSet(filePath: string): Promise<Set<string>> {
   return phrases;
 }
 
-async function processFiles(filePaths: string[]): Promise<ProcessResult> {
+async function processFilesParallel(filePaths: string[]): Promise<ProcessResult> {
+  console.log('Запуск параллельной обработки файлов');
+  
+  const promises = filePaths.map(filePath => readPhrasesToSet(filePath));
+  const fileSets = await Promise.all(promises);
+  
   const uniqueTotal = new Set<string>();
-  const fileSets: Set<string>[] = [];
-
-  for (const filePath of filePaths) {
-    console.log(`Обработка: ${path.basename(filePath)}`);
-    const phrases = await readPhrasesToSet(filePath);
-    fileSets.push(phrases);
+  for (const phrases of fileSets) {
     for (const phrase of phrases) {
       uniqueTotal.add(phrase);
     }
   }
-
+  
   return { uniqueTotal, fileSets };
 }
-// Находит фразы, которые есть во всех файлах
+
 function countInAllFiles(fileSets: Set<string>[]): number {
   if (fileSets.length === 0) return 0;
   
@@ -57,3 +57,60 @@ function countInAllFiles(fileSets: Set<string>[]): number {
   return common.size;
 }
 
+
+function countInAtLeastNFiles(fileSets: Set<string>[], minFiles: number): number {
+  const frequency = new Map<string, number>();
+  
+  for (const fileSet of fileSets) {
+    for (const phrase of fileSet) {
+      frequency.set(phrase, (frequency.get(phrase) || 0) + 1);
+    }
+  }
+  let count = 0;
+  for (const occurrences of frequency.values()) {
+    if (occurrences >= minFiles) {
+      count++;
+    }
+  }
+  
+  return count;
+}
+
+async function main() {
+  const startTime = Date.now();
+  
+  const dataDir = path.join(__dirname, '../data');
+  const filePaths: string[] = [];
+  
+  for (let i = 0; i < 20; i++) {
+    filePaths.push(path.join(dataDir, `out${i}.txt`));
+  }
+  
+  console.log('Проверка файлов');
+  for (const filePath of filePaths) {
+    if (!fs.existsSync(filePath)) {
+      console.error(`Файл не найден: ${filePath}`);
+      console.log('Убедитесь, что файлы .txt находятся в папке data/');
+      process.exit(1);
+    }
+  }
+  
+  console.log('Начинаем обработку файлов');
+  
+  const { uniqueTotal, fileSets } = await processFilesParallel(filePaths);
+  
+  console.log('Подсчет фраз во всех файлах');
+  const allFilesCount = countInAllFiles(fileSets);
+  
+  console.log('Подсчет фраз хотя бы в 10 файлах...');
+  const atLeast10Count = countInAtLeastNFiles(fileSets, 10);
+  
+  const elapsedTime = (Date.now() - startTime) / 1000;
+  
+  console.log(`1. Уникальных фраз во всех файлах: ${uniqueTotal.size}`);
+  console.log(`2. Фраз во всех 20 файлах: ${allFilesCount}`);
+  console.log(`3. Фраз хотя бы в 10 файлах: ${atLeast10Count}`);
+  console.log(`Время выполнения: ${elapsedTime.toFixed(2)} секунд`);
+}
+
+main().catch(console.error);

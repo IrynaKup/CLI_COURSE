@@ -1,5 +1,47 @@
 node_modules
-.env
-.DS_Storemy_notes.txt 
-zadania.txt 
 my_notes.txt 
+
+# Скомпилированные файлы TypeScript
+dist/
+build/
+*.js
+*.js.map
+*.d.ts
+!*.config.js
+!*.config.ts
+
+# Логи
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Файлы окружения
+.env
+.env.local
+.env.*.local
+
+# Данные (большие файлы для Instagram Giveaway)
+data/
+*.txt
+!package-lock.json
+!tsconfig.json
+!README.md
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ОС
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Временные файлы
+*.tmp
+*.temp
+tmp/
+temp/
