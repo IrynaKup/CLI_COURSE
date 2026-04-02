@@ -16,6 +16,25 @@ if (!BOT_TOKEN || !CHAT_ID) {
 
 const bot = new TelegramBot(BOT_TOKEN);
 
+if (process.argv.slice(2).length === 0) {
+  console.log('поллинг');
+  bot.startPolling();
+  bot.on('polling_error', (error) => {
+    console.error('Polling error:', error.message);
+  });
+  bot.on('message', (msg) => {
+    const chatId = msg.chat.id;
+    const text = msg.text;
+    const from = msg.from.first_name;
+    
+    console.log(`Received message from ${from}: ${text}`);
+    bot.sendMessage(chatId, `Echo: ${text}`);
+  });
+  
+  console.log('Bot - ready');
+} else {
+
+
 program
   .name('Console Sender')
   .description('Telegram Console Sender - tool to send messages and photos to Telegram')
@@ -70,4 +89,5 @@ program.parse(process.argv);
 
 if (!process.argv.slice(2).length) {
   program.outputHelp();
-};
+}
+}
