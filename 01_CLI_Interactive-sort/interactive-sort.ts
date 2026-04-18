@@ -31,38 +31,38 @@ function interactiveSort() {
     const commands: CommandMap = {
         // a. Sort words alphabetically
         a: (words) => {
-            const sorted = words.slice().sort((a, b) => a.localeCompare(b));
-            console.log('Words alphabetically:', sorted);
+            const sorted = [...words].sort();
+            console.log(sorted.join(' '));
         },
         
         // b. Numbers in ascending order
         b: (numbers) => {
-            const sorted = numbers.slice().sort((a, b) => a - b);
-            console.log('Numbers ascending:', sorted);
+            const sorted = [...numbers].sort((a, b) => a - b);
+            console.log(sorted.join(' '));
         },
         
         // c. Numbers in descending order
         c: (numbers) => {
-            const sorted = numbers.slice().sort((a, b) => b - a);
-            console.log('Numbers descending:', sorted);
+            const sorted = [...numbers].sort((a, b) => b - a);
+            console.log(sorted.join(' '));
         },
         
         // d. Words by length
         d: (words) => {
-            const sorted = words.slice().sort((a, b) => a.length - b.length);
-            console.log('Words by length:', sorted);
+            const sorted = [...words].sort((a, b) => a.length - b.length);
+            console.log(sorted.join(' '));
         },
         
         // e. Unique words
         e: (words) => {
             const unique = [...new Set(words)];
-            console.log('Unique words:', unique);
+            console.log(unique.join(' '));
         },
         
         // f. Unique values from the entire set
         f: (data) => {
             const unique = [...new Set(data)];
-            console.log('Unique values:', unique);
+            console.log(unique.join(' '));
         }
     };
 
@@ -79,9 +79,6 @@ function interactiveSort() {
 
     function main(data: any[]) {
         const { words, numbers } = splitData(data);
-        
-        console.log('Words:', words);
-        console.log('Numbers:', numbers);
         
         showMenu();
         
