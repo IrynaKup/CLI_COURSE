@@ -1,15 +1,6 @@
 node_modules
 my_notes.txt 
 
-# Скомпилированные файлы TypeScript
-dist/
-build/
-*.js
-*.js.map
-*.d.ts
-!*.config.js
-!*.config.ts
-
 # Логи
 *.log
 npm-debug.log*
