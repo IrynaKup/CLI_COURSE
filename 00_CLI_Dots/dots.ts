@@ -4,7 +4,7 @@
  * @param {string} str
  * @returns {string[]}
 */
-function pointsBinaryFunction(str) {
+function pointsBinaryFunction(str: string) {
      if (str.length <= 1) return [str];
     
     const combinations = 2 ** (str.length - 1);
