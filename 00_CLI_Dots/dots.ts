@@ -1,5 +1,11 @@
-const pointsBinary = (str) => {
-    if (str.length <= 1) return [str];
+// @ts-check
+
+/** 
+ * @param {string} str
+ * @returns {string[]}
+*/
+function pointsBinaryFunction(str) {
+     if (str.length <= 1) return [str];
     
     const combinations = 2 ** (str.length - 1);
     const result = [];
@@ -18,7 +24,7 @@ const pointsBinary = (str) => {
     }
     
     return result;
-};
+}
 
-console.log(pointsBinary('abc'));
-console.log(pointsBinary('abcd'));
+console.log(pointsBinaryFunction('abc'));
+console.log(pointsBinaryFunction('abcd'));
