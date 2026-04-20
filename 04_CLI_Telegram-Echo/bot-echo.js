@@ -45,7 +45,7 @@ bot.on('message', async (msg) => {
   const userName = await getUserName(chatId, userId, firstName);
   
   if (userMessage && userMessage.toLowerCase().includes('photo')) {
-    console.log(`📸 Пользователь ${userName} запросил картинку.`);
+    console.log(`Пользователь ${userName} запросил картинку.`);
     
     try {
       const photoUrl = `https://picsum.photos/800/600?random=${Math.random()}`;
