@@ -12,9 +12,11 @@
   "type": "module",
   "dependencies": {
     "@types/node": "^25.6.0",
-    "@types/node-telegram-bot-api": "^0.64.14",
     "node-telegram-bot-api": "^0.67.0",
     "ts-node": "^10.9.2",
     "typescript": "^6.0.3"
+  },
+  "devDependencies": {
+    "@types/node-telegram-bot-api": "^0.64.14"
   }
 }

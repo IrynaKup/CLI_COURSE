@@ -1,32 +1,45 @@
 import TelegramBot from 'node-telegram-bot-api';
-import fs from 'fs';
+import dotenv from 'dotenv';
 
-const TOKEN = 'BOT_TOKEN';
+dotenv.config();
+
+const TOKEN = process.env.TELEGRAM_TOKEN;
+
+if (!TOKEN) {
+  console.error('Error: TELEGRAM_TOKEN is missing in .env file');
+  process.exit(1);
+}
+
 const bot = new TelegramBot(TOKEN, { polling: true });
 
-bot.on('message', (msg: any) => {
-  if (msg.text) {
-    bot.sendMessage(msg.chat.id, msg.text);
+console.log('Telegram bot successfully started...');
+
+bot.on('message', async (msg: TelegramBot.Message) => {
+  const chatId = msg.chat.id;
+  const userMessage = msg.text;
+  const fullName = [msg.from?.first_name, msg.from?.last_name]
+    .filter(Boolean)
+    .join(' ') || 'Unknown User';
+
+  if (userMessage?.toLowerCase() === 'photo') {
+    console.log(`User ${fullName} requested a picture.`);
+    
+      const photoUrl = `https://picsum.photos/800/600?random=${Math.random()}`;
+      await bot.sendPhoto(chatId, photoUrl);
+  }
+
+  if (userMessage) {
+    console.log(`User ${fullName} wrote: ${userMessage}`);
+    const cleanMessage = userMessage.startsWith('/') ? userMessage.slice(1) : userMessage;
+    await bot.sendMessage(chatId, `You wrote: "${cleanMessage}"`);
   }
 });
 
-const args = process.argv.slice(2);
-const command = args[0];
-const target = args[1];
-const content = args[2];
+// Proper error handling
+bot.on('polling_error', (error) => console.error(`Polling error: ${error.message}`));
 
-if (command === 'message' && target && content) {
-  bot.sendMessage(target, content);
-  setTimeout(() => process.exit(0), 1000);
-} 
-else if (command === 'photo' && target && content && fs.existsSync(content)) {
-  bot.sendPhoto(target, content);
-  setTimeout(() => process.exit(0), 1000);
-}
-else if (command) {
-  console.log('Использование:');
-  console.log('  node bot.js message <chat_id> "текст"');
-  console.log('  node bot.js photo <chat_id> /путь/к/фото.jpg');
-}
-
-console.log('Бот запущен');
+// Graceful shutdown
+process.on('SIGINT', () => {
+  bot.stopPolling();
+  process.exit(0);
+});
