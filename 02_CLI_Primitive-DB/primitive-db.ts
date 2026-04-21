@@ -4,7 +4,7 @@ import { existsSync } from 'fs';
 const DataJson = 'users.json';
 
 import { input, select, confirm } from '@inquirer/prompts';
-import path from 'path';
+
 
 interface User {
     name: string;

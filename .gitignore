@@ -1,5 +1,6 @@
 node_modules
 my_notes.txt 
+users.json
 
 # Логи
 *.log
