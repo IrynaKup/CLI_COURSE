@@ -38,7 +38,7 @@ bot.on('message', async (msg: any) => {
     const chatId = msg.chat.id;
     const text = msg.text;
     if (!text) return;
-    if (text === 'Назад, вібрать другой город') {
+    if (text === 'Back to change city') {
         delete userCities[chatId];
         return bot.sendMessage(chatId, "Pls enter a new city name:", removeKeyboard());
     }
@@ -46,11 +46,11 @@ bot.on('message', async (msg: any) => {
         await getWeather(chatId, 3);
     } else if (text === '6 часов') {
         await getWeather(chatId, 6);
-    } else if (text === 'Назад, вібрать другой город') {
+    }else if (text === 'Назад, вібрать другой город') {
         bot.sendMessage(chatId, "Pls enter a new city name:");
-   } else if (!text.startsWith('/')) {
+    }else if (!text.startsWith('/')) {
         userCities[chatId] = text.trim();
-        bot.sendMessage(chatId, `Город ${text} выбран!`, getMainMenu(text));
+        bot.sendMessage(chatId, `City ${text} ch`, getMainMenu(text));
     }
 });
 
