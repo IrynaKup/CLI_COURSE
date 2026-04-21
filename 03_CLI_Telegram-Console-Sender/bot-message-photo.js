@@ -50,10 +50,6 @@ if (process.argv.slice(2).length === 0) {
 
 */ 
 program
-  .name('Console Sender')
-  .description('Telegram Console Sender - tool to send messages and photos to Telegram')
-  .version('1.0.0');
-program
   .command('message <text>')
   .alias('m')
   .description('Send a text message to Telegram bot')
