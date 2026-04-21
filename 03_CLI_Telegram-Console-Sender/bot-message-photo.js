@@ -5,7 +5,6 @@ const { program } = require('commander');
 const TelegramBot = require('node-telegram-bot-api');
 const { existsSync } = require('fs');
 const path = require('path');
-//const express = require('express');
 
 const BOT_TOKEN = process.env.BOT_TOKEN;
 const CHAT_ID = process.env.CHAT_ID;
@@ -16,39 +15,7 @@ if (!BOT_TOKEN || !CHAT_ID) {
 }
 
 const bot = new TelegramBot(BOT_TOKEN);
-/* 
-if (process.argv.slice(2).length === 0) {
-  console.log('поллинг');
-  bot.startPolling();
 
-  const app = express();
-  const port = process.env.PORT || 3000; 
-  app.get('/', (req, res) => {
-    res.send('Bot is running!');
-  });
-   app.listen(port, () => {
-    console.log(`Web server started on port ${port}`);
-  });
-  
-  bot.startPolling();
-
-
-  bot.on('polling_error', (error) => {
-    console.error('Polling error:', error.message);
-  });
-  bot.on('message', (msg) => {
-    const chatId = msg.chat.id;
-    const text = msg.text;
-    const from = msg.from.first_name;
-    
-    console.log(`Received message from ${from}: ${text}`);
-    bot.sendMessage(chatId, `Echo: ${text}`);
-  });
-  
-  console.log('Bot - ready');
-} else {
-
-*/ 
 program
   .command('message <text>')
   .alias('m')

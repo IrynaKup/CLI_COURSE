@@ -15,8 +15,8 @@ function interactiveSort() {
     function splitData(items: string[]) : DataSet {
         const words: string[] = [];
         const numbers: number[] = [];
-        items.forEach((item: any) => {
-            if (isNaN(item)) {
+        items.forEach((item: string) => {
+            if (typeof Number(item)){
                 words.push(item);
             } else {
                 numbers.push(Number(item));
@@ -77,7 +77,7 @@ function interactiveSort() {
         console.log('x - exit the program');
     }
 
-    function main(data: any[]) {
+    function main(data: string[]) {
         const { words, numbers } = splitData(data);
         
         showMenu();
@@ -99,7 +99,7 @@ function interactiveSort() {
                     commands[command](numbers);
                 }
             } else {
-                console.log('Invalid command. Use a-f or x');
+                console.warn('Invalid command. Use a-f or x');
             }
             
             askCommand(); 

@@ -1,0 +1,27 @@
+[
+  {
+    "name": "ira",
+    "gender": "male",
+    "age": 10
+  },
+  {
+    "name": "ira",
+    "gender": "male",
+    "age": 11
+  },
+  {
+    "name": "qwer",
+    "gender": "female",
+    "age": 1
+  },
+  {
+    "name": "pop",
+    "gender": "male",
+    "age": 34
+  },
+  {
+    "name": "jon",
+    "gender": "male",
+    "age": 900
+  }
+]
