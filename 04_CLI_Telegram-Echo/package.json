@@ -12,6 +12,8 @@
   "type": "module",
   "dependencies": {
     "@types/node": "^25.6.0",
+    "dotenv": "^17.4.2",
+    "dotenvi": "^0.9.1",
     "node-telegram-bot-api": "^0.67.0",
     "ts-node": "^10.9.2",
     "typescript": "^6.0.3"

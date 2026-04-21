@@ -1,15 +1,11 @@
 import TelegramBot from 'node-telegram-bot-api';
 import dotenv from 'dotenv';
-
 dotenv.config();
 
-const TOKEN = process.env.TELEGRAM_TOKEN;
-
+const TOKEN = process.env.BOT_TOKEN;
 if (!TOKEN) {
-  console.error('Error: TELEGRAM_TOKEN is missing in .env file');
   process.exit(1);
 }
-
 const bot = new TelegramBot(TOKEN, { polling: true });
 
 console.log('Telegram bot successfully started...');
@@ -17,29 +13,21 @@ console.log('Telegram bot successfully started...');
 bot.on('message', async (msg: TelegramBot.Message) => {
   const chatId = msg.chat.id;
   const userMessage = msg.text;
-  const fullName = [msg.from?.first_name, msg.from?.last_name]
-    .filter(Boolean)
-    .join(' ') || 'Unknown User';
+  const userName = msg.from?.first_name
 
   if (userMessage?.toLowerCase() === 'photo') {
-    console.log(`User ${fullName} requested a picture.`);
-    
+    console.log(`User ${userName} requested a picture.`);
       const photoUrl = `https://picsum.photos/800/600?random=${Math.random()}`;
       await bot.sendPhoto(chatId, photoUrl);
-  }
-
-  if (userMessage) {
-    console.log(`User ${fullName} wrote: ${userMessage}`);
-    const cleanMessage = userMessage.startsWith('/') ? userMessage.slice(1) : userMessage;
-    await bot.sendMessage(chatId, `You wrote: "${cleanMessage}"`);
+  } 
+  else if (userMessage) {
+    console.log(`User ${userName} wrote: ${userMessage}`);
+    await bot.sendMessage(chatId, `You wrote: "${userMessage}"`);
   }
 });
 
-// Proper error handling
-bot.on('polling_error', (error) => console.error(`Polling error: ${error.message}`));
-
-// Graceful shutdown
+bot.on('polling_error', (error) => console.error(error.message));
 process.on('SIGINT', () => {
   bot.stopPolling();
-  process.exit(0);
+  process.exit(0)
 });
