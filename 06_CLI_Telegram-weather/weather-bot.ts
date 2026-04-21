@@ -9,7 +9,7 @@ const TOKEN = process.env.TELEGRAM_TOKEN;
 const WEATHER_KEY = process.env.WEATHER_API_KEY;
 
 if (!TOKEN || !WEATHER_KEY) {
-  console.log('Ошибка в файл .env');
+  console.log('error in file .env');
   process.exit(1);
 }
 
@@ -20,8 +20,8 @@ const userCities: Record<number, string> = {};
 const getMainMenu = (city: string): SendMessageOptions => ({
     reply_markup: {
         keyboard: [
-            [{ text: '3 часа' }, { text: '6 часов' }],
-            [{ text: 'Назад, вібрать другой город' }]
+            [{ text: '3 hours' }, { text: '6 hours' }],
+            [{ text: 'Back to change city' }]
         ],
         resize_keyboard: true,
         one_time_keyboard: false
@@ -42,15 +42,15 @@ bot.on('message', async (msg: any) => {
         delete userCities[chatId];
         return bot.sendMessage(chatId, "Pls enter a new city name:", removeKeyboard());
     }
-    if (text === '3 часа') {
+    if (text === '3 hours') {
         await getWeather(chatId, 3);
-    } else if (text === '6 часов') {
+    } else if (text === '6 hours') {
         await getWeather(chatId, 6);
-    }else if (text === 'Назад, вібрать другой город') {
+    }else if (text === 'Back to change city') {
         bot.sendMessage(chatId, "Pls enter a new city name:");
     }else if (!text.startsWith('/')) {
         userCities[chatId] = text.trim();
-        bot.sendMessage(chatId, `City ${text} ch`, getMainMenu(text));
+        bot.sendMessage(chatId, `City ${text} choosen`, getMainMenu(text));
     }
 });
 
