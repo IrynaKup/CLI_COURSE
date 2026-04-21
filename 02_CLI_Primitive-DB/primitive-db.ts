@@ -38,12 +38,17 @@ async function addUser() {
         message: "Enter user name:",
         validate: (value: string) => {
           const trimmed = value.trim();
-          if (/\d/.test(trimmed)) {
-            return "Name should not contain numbers.";
-          }
+          if (/\d/.test(trimmed)) return "Name should not contain numbers.";
           return true;
         },
       });
+      const formattedName =
+        name.trim().charAt(0).toUpperCase() +
+        name.trim().slice(1).toLowerCase();
+      if (name.trim() === "") {
+        console.log("Finish.");
+        return;
+      }
 
       const gender = await select({
         message: `Select gender, ${name}:`,
@@ -54,7 +59,7 @@ async function addUser() {
       });
 
       const age = await input({
-        message: `Enter age, ${name}:`,
+        message: `Enter age, ${formattedName}:`,
         validate: (value: string) => {
           const num = Number(value);
           if (isNaN(num) || num < 0) {
@@ -64,12 +69,12 @@ async function addUser() {
         },
       });
       users.push({
-        name: name.slice(0).toUpperCase() + name.slice(1).toLowerCase(),
+        name: formattedName,
         gender: gender,
         age: Number(age),
       });
       await saveToFile();
-      console.log(`User ${name} added to DataBase.`);
+      console.log(`User ${formattedName} added to DataBase.`);
     } catch (error) {
       console.log("\n..");
       return;

@@ -1,27 +1,12 @@
 [
   {
-    "name": "ira",
-    "gender": "male",
-    "age": 10
-  },
-  {
-    "name": "ira",
-    "gender": "male",
-    "age": 11
-  },
-  {
-    "name": "qwer",
+    "name": "Ira",
     "gender": "female",
-    "age": 1
+    "age": 19
   },
   {
-    "name": "pop",
+    "name": "Nigga",
     "gender": "male",
-    "age": 34
-  },
-  {
-    "name": "jon",
-    "gender": "male",
-    "age": 900
+    "age": 16
   }
 ]
