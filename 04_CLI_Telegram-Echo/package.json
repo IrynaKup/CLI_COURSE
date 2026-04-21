@@ -2,7 +2,7 @@
   "name": "04_cli_telegram-echo",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "bot-echo.js",
   "scripts": {
     "dev": "ts-node bot-echo.ts"
   },
