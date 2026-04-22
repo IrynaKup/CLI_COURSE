@@ -1,12 +1,27 @@
 [
   {
-    "name": "Ira",
+    "name": "Kate",
     "gender": "female",
-    "age": 19
+    "age": 21
   },
   {
-    "name": "Nigga",
+    "name": "Julia",
+    "gender": "female",
+    "age": 25
+  },
+  {
+    "name": "Mario",
     "gender": "male",
-    "age": 16
+    "age": 20
+  },
+  {
+    "name": "Gven",
+    "gender": "female",
+    "age": 23
+  },
+  {
+    "name": "Ira",
+    "gender": "female",
+    "age": 20
   }
 ]
