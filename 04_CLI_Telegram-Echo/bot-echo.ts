@@ -33,8 +33,7 @@ process.on('SIGINT', () => {
 });
 
 import http from 'http';
-
-// Создаем "заглушку" сервера для Render
+// Render
 const port = process.env.PORT || 3000;
 http.createServer((req, res) => {
     res.writeHead(200);
