@@ -31,3 +31,14 @@ process.on('SIGINT', () => {
   bot.stopPolling();
   process.exit(0)
 });
+
+import http from 'http';
+
+// Создаем "заглушку" сервера для Render
+const port = process.env.PORT || 3000;
+http.createServer((req, res) => {
+    res.writeHead(200);
+    res.end('Bot is alive!');
+}).listen(port, () => {
+    console.log(`Web server is running on port ${port}`);
+});
